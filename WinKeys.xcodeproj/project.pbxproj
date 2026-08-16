@@ -1,0 +1,337 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B00000000000000000000001 /* WinKeysApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000001 /* WinKeysApp.swift */; };
+		B00000000000000000000002 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000002 /* AppState.swift */; };
+		B00000000000000000000003 /* ShortcutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000003 /* ShortcutModels.swift */; };
+		B00000000000000000000004 /* ShortcutTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000004 /* ShortcutTranslator.swift */; };
+		B00000000000000000000005 /* ShortcutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000005 /* ShortcutEngine.swift */; };
+		B00000000000000000000006 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000007 /* RootView.swift */; };
+		B00000000000000000000007 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000008 /* DashboardView.swift */; };
+		B00000000000000000000008 /* ShortcutRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000009 /* ShortcutRulesView.swift */; };
+		B00000000000000000000009 /* ApplicationRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000A /* ApplicationRulesView.swift */; };
+		B0000000000000000000000A /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000B /* MenuBarView.swift */; };
+		B0000000000000000000000B /* ShortcutTranslatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000C /* ShortcutTranslatorTests.swift */; };
+		B0000000000000000000000C /* SyntheticKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000011 /* SyntheticKeyboard.swift */; };
+		B0000000000000000000000D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000012 /* WindowManager.swift */; };
+		B0000000000000000000000E /* ClipboardHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000013 /* ClipboardHistory.swift */; };
+		B0000000000000000000000F /* ClipboardHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000014 /* ClipboardHistoryView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E00000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = P00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = T00000000000000000000001;
+			remoteInfo = WinKeys;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F00000000000000000000001 /* WinKeysApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinKeysApp.swift; sourceTree = "<group>"; };
+		F00000000000000000000002 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		F00000000000000000000003 /* ShortcutModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutModels.swift; sourceTree = "<group>"; };
+		F00000000000000000000004 /* ShortcutTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutTranslator.swift; sourceTree = "<group>"; };
+		F00000000000000000000005 /* ShortcutEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutEngine.swift; sourceTree = "<group>"; };
+		F00000000000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F00000000000000000000007 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		F00000000000000000000008 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		F00000000000000000000009 /* ShortcutRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRulesView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000A /* ApplicationRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationRulesView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000B /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000C /* ShortcutTranslatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutTranslatorTests.swift; sourceTree = "<group>"; };
+		F0000000000000000000000D /* WinKeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinKeys.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0000000000000000000000E /* WinKeysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WinKeysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0000000000000000000000F /* PROJECT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PROJECT.md; sourceTree = "<group>"; };
+		F00000000000000000000010 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F00000000000000000000011 /* SyntheticKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticKeyboard.swift; sourceTree = "<group>"; };
+		F00000000000000000000012 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		F00000000000000000000013 /* ClipboardHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHistory.swift; sourceTree = "<group>"; };
+		F00000000000000000000014 /* ClipboardHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHistoryView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		S00000000000000000000002 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		S00000000000000000000005 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		G00000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				F0000000000000000000000F /* PROJECT.md */,
+				F00000000000000000000010 /* README.md */,
+				G00000000000000000000002 /* WinKeys */,
+				G00000000000000000000004 /* WinKeysTests */,
+				G00000000000000000000005 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		G00000000000000000000002 /* WinKeys */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000001 /* WinKeysApp.swift */,
+				F00000000000000000000002 /* AppState.swift */,
+				F00000000000000000000003 /* ShortcutModels.swift */,
+				F00000000000000000000004 /* ShortcutTranslator.swift */,
+				F00000000000000000000005 /* ShortcutEngine.swift */,
+				F00000000000000000000011 /* SyntheticKeyboard.swift */,
+				F00000000000000000000012 /* WindowManager.swift */,
+				F00000000000000000000013 /* ClipboardHistory.swift */,
+				G00000000000000000000003 /* Views */,
+				F00000000000000000000006 /* Info.plist */,
+			);
+			path = WinKeys;
+			sourceTree = "<group>";
+		};
+		G00000000000000000000003 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000007 /* RootView.swift */,
+				F00000000000000000000008 /* DashboardView.swift */,
+				F00000000000000000000009 /* ShortcutRulesView.swift */,
+				F0000000000000000000000A /* ApplicationRulesView.swift */,
+				F0000000000000000000000B /* MenuBarView.swift */,
+				F00000000000000000000014 /* ClipboardHistoryView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		G00000000000000000000004 /* WinKeysTests */ = {
+			isa = PBXGroup;
+			children = (F0000000000000000000000C /* ShortcutTranslatorTests.swift */,);
+			path = WinKeysTests;
+			sourceTree = "<group>";
+		};
+		G00000000000000000000005 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F0000000000000000000000D /* WinKeys.app */,
+				F0000000000000000000000E /* WinKeysTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		T00000000000000000000001 /* WinKeys */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = L00000000000000000000002 /* Build configuration list for PBXNativeTarget "WinKeys" */;
+			buildPhases = (
+				S00000000000000000000001 /* Sources */,
+				S00000000000000000000002 /* Frameworks */,
+				S00000000000000000000003 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = WinKeys;
+			productName = WinKeys;
+			productReference = F0000000000000000000000D /* WinKeys.app */;
+			productType = "com.apple.product-type.application";
+		};
+		T00000000000000000000002 /* WinKeysTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = L00000000000000000000003 /* Build configuration list for PBXNativeTarget "WinKeysTests" */;
+			buildPhases = (
+				S00000000000000000000004 /* Sources */,
+				S00000000000000000000005 /* Frameworks */,
+				S00000000000000000000006 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = (D00000000000000000000001 /* PBXTargetDependency */,);
+			name = WinKeysTests;
+			productName = WinKeysTests;
+			productReference = F0000000000000000000000E /* WinKeysTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		P00000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					T00000000000000000000001 = {CreatedOnToolsVersion = 26.0;};
+					T00000000000000000000002 = {CreatedOnToolsVersion = 26.0; TestTargetID = T00000000000000000000001;};
+				};
+			};
+			buildConfigurationList = L00000000000000000000001 /* Build configuration list for PBXProject "WinKeys" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = zh-Hans;
+			hasScannedForEncodings = 0;
+			knownRegions = (Base, "zh-Hans", en,);
+			mainGroup = G00000000000000000000001;
+			productRefGroup = G00000000000000000000005 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (T00000000000000000000001 /* WinKeys */, T00000000000000000000002 /* WinKeysTests */,);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		S00000000000000000000003 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		S00000000000000000000006 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		S00000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000001 /* WinKeysApp.swift in Sources */,
+				B00000000000000000000002 /* AppState.swift in Sources */,
+				B00000000000000000000003 /* ShortcutModels.swift in Sources */,
+				B00000000000000000000004 /* ShortcutTranslator.swift in Sources */,
+				B00000000000000000000005 /* ShortcutEngine.swift in Sources */,
+				B00000000000000000000006 /* RootView.swift in Sources */,
+				B00000000000000000000007 /* DashboardView.swift in Sources */,
+				B00000000000000000000008 /* ShortcutRulesView.swift in Sources */,
+				B00000000000000000000009 /* ApplicationRulesView.swift in Sources */,
+				B0000000000000000000000A /* MenuBarView.swift in Sources */,
+				B0000000000000000000000C /* SyntheticKeyboard.swift in Sources */,
+				B0000000000000000000000D /* WindowManager.swift in Sources */,
+				B0000000000000000000000E /* ClipboardHistory.swift in Sources */,
+				B0000000000000000000000F /* ClipboardHistoryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		S00000000000000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (B0000000000000000000000B /* ShortcutTranslatorTests.swift in Sources */,);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D00000000000000000000001 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = T00000000000000000000001 /* WinKeys */; targetProxy = E00000000000000000000001 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C00000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)",);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C00000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+		};
+			name = Release;
+		};
+		C00000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WinKeys/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks",);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oxygen.WinKeys;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C00000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WinKeys/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/../Frameworks",);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oxygen.WinKeys;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C00000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oxygen.WinKeysTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WinKeys.app/Contents/MacOS/WinKeys";
+			};
+			name = Debug;
+		};
+		C00000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oxygen.WinKeysTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WinKeys.app/Contents/MacOS/WinKeys";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		L00000000000000000000001 /* Build configuration list for PBXProject "WinKeys" */ = {isa = XCConfigurationList; buildConfigurations = (C00000000000000000000001 /* Debug */, C00000000000000000000002 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		L00000000000000000000002 /* Build configuration list for PBXNativeTarget "WinKeys" */ = {isa = XCConfigurationList; buildConfigurations = (C00000000000000000000003 /* Debug */, C00000000000000000000004 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		L00000000000000000000003 /* Build configuration list for PBXNativeTarget "WinKeysTests" */ = {isa = XCConfigurationList; buildConfigurations = (C00000000000000000000005 /* Debug */, C00000000000000000000006 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = P00000000000000000000001 /* Project object */;
+}
