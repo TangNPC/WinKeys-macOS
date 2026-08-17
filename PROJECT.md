@@ -73,5 +73,6 @@
 - [x] Windows 风格窗口布局与恢复
 - [x] Win+V 本地文本剪贴板历史
 - [x] Alt+Tab 选中应用后按切换器图标点击语义激活、恢复或重新打开窗口
+- [x] `v0.1.2` 通过 GitHub Actions 发布 Apple Silicon 与 Intel DMG
 
 下一阶段优先验证不同实体键盘上的 Alt/Win 修饰键事件，并根据实际使用反馈调整映射；独立发布前补充应用图标、Developer ID 签名和公证。
