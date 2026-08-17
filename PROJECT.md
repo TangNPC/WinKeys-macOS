@@ -11,6 +11,7 @@
 - 将常用 Windows 编辑快捷键翻译为 macOS 快捷键，例如 `Ctrl+C/V/X/Z/A/S/F`。
 - 提供 Windows 风格文本导航，包括 Home、End、Ctrl+方向键和 Ctrl+退格。
 - 支持 `Alt+Tab`、`Alt+F4`、`Win+E`、`Win+D` 和 `Ctrl+Shift+Esc`。
+- `Alt+F4` 直接请求退出当前前台应用，而不是仅关闭当前窗口。
 - `Alt+Tab` 选中应用并松开 Alt 后，应像点击切换器中的应用图标一样激活其全部窗口；最小化或已关闭的主窗口也应能重新显示。
 - 判断应用是否已有可显示窗口时，应忽略微信等应用在关闭主窗口后残留的无标题后台辅助窗口。
 - 支持 `Alt+Space` 打开 Spotlight，`Ctrl+Space` 保持 macOS 输入法切换。
@@ -74,5 +75,6 @@
 - [x] Win+V 本地文本剪贴板历史
 - [x] Alt+Tab 选中应用后按切换器图标点击语义激活、恢复或重新打开窗口
 - [x] `v0.1.2` 通过 GitHub Actions 发布 Apple Silicon 与 Intel DMG
+- [x] `v0.1.3` 通过 GitHub Actions 发布 Apple Silicon 与 Intel DMG
 
 下一阶段优先验证不同实体键盘上的 Alt/Win 修饰键事件，并根据实际使用反馈调整映射；独立发布前补充应用图标、Developer ID 签名和公证。

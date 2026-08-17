@@ -75,6 +75,18 @@ final class ShortcutTranslatorTests: XCTestCase {
         XCTAssertEqual(decision, .remap(keyCode: KeyCode.tab, flags: [.maskCommand]))
     }
 
+    func testAltF4QuitsTheCurrentApplication() {
+        let decision = ShortcutTranslator.decision(
+            keyCode: KeyCode.f4,
+            flags: [.maskAlternate],
+            behavior: .standard,
+            frontmostBundleIdentifier: "com.apple.TextEdit",
+            configuration: .default
+        )
+
+        XCTAssertEqual(decision, .perform(.quitApplication))
+    }
+
     func testBypassDoesNotTranslateAnything() {
         let decision = ShortcutTranslator.decision(
             keyCode: KeyCode.tab,

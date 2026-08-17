@@ -148,10 +148,7 @@ enum ShortcutTranslator {
             }
 
             if keyCode == KeyCode.f4 {
-                return .remap(
-                    keyCode: KeyCode.q,
-                    flags: replacing(flags, remove: [.maskAlternate], add: [.maskCommand])
-                )
+                return .perform(.quitApplication)
             }
         }
 

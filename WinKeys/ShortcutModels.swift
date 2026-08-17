@@ -56,6 +56,7 @@ enum ShortcutAction: Equatable {
     case showMissionControl
     case navigateBack
     case navigateForward
+    case quitApplication
     case openSystemSettings
     case showEmojiPicker
     case showForceQuit

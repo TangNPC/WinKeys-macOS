@@ -22,7 +22,7 @@ struct ShortcutRulesView: View {
             Section {
                 Toggle("应用切换与导航", isOn: $state.appSwitching)
                 KeyMappingRow(windows: "Alt + Tab", mac: "⌘ Tab")
-                KeyMappingRow(windows: "Alt + F4", mac: "⌘ Q")
+                KeyMappingRow(windows: "Alt + F4", mac: "退出当前应用")
                 KeyMappingRow(windows: "Alt + ← / →", mac: "后退 / 前进")
             }
 

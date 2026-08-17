@@ -436,6 +436,14 @@ extension AppState: ShortcutEngineDelegate {
         case .navigateForward:
             SyntheticKeyboard.press(KeyCode.rightBracket, flags: [.maskCommand])
 
+        case .quitApplication:
+            guard let application = NSWorkspace.shared.frontmostApplication else { return }
+            if application.processIdentifier == ProcessInfo.processInfo.processIdentifier {
+                NSApplication.shared.terminate(nil)
+            } else {
+                application.terminate()
+            }
+
         case .openSystemSettings:
             let url = URL(fileURLWithPath: "/System/Applications/System Settings.app")
             NSWorkspace.shared.openApplication(at: url, configuration: .init())
