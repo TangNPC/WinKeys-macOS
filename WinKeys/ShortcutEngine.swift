@@ -6,7 +6,7 @@ protocol ShortcutEngineDelegate: AnyObject {
     func shortcutEngineBehavior(for bundleIdentifier: String?) -> AppBehavior
     func shortcutEngineDidChange(running: Bool, error: String?)
     func shortcutEnginePerform(_ action: ShortcutAction)
-    func shortcutEngineRestoreMinimizedWindows()
+    func shortcutEngineActivateSelectedApplication()
 }
 
 final class ShortcutEngine {
@@ -169,7 +169,7 @@ final class ShortcutEngine {
         if pendingAppSwitchRestore, !event.flags.contains(.maskAlternate) {
             pendingAppSwitchRestore = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                delegate.shortcutEngineRestoreMinimizedWindows()
+                delegate.shortcutEngineActivateSelectedApplication()
             }
         }
 

@@ -153,8 +153,8 @@ final class WindowManager {
         return values
     }
 
-    func restoreMinimizedWindows(for application: NSRunningApplication) {
-        guard application.processIdentifier != ProcessInfo.processInfo.processIdentifier else { return }
+    func restoreMinimizedWindows(for application: NSRunningApplication) -> Bool {
+        guard application.processIdentifier != ProcessInfo.processInfo.processIdentifier else { return false }
         var candidates: [AXUIElement] = []
         if let focused = focusedWindow(for: application) {
             candidates.append(focused)
@@ -171,6 +171,7 @@ final class WindowManager {
                 _ = AXUIElementPerformAction(window, kAXRaiseAction as CFString)
             }
         }
+        return !candidates.isEmpty
     }
 
     private func restoreMinimizedWindow(_ window: AXUIElement) -> String? {

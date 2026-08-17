@@ -11,6 +11,7 @@
 - 将常用 Windows 编辑快捷键翻译为 macOS 快捷键，例如 `Ctrl+C/V/X/Z/A/S/F`。
 - 提供 Windows 风格文本导航，包括 Home、End、Ctrl+方向键和 Ctrl+退格。
 - 支持 `Alt+Tab`、`Alt+F4`、`Win+E`、`Win+D` 和 `Ctrl+Shift+Esc`。
+- `Alt+Tab` 选中应用并松开 Alt 后，应像点击切换器中的应用图标一样激活其全部窗口；最小化或已关闭的主窗口也应能重新显示。
 - 支持 `Alt+Space` 打开 Spotlight，`Ctrl+Space` 保持 macOS 输入法切换。
 - 支持 `Win+方向键` 贴靠、最大化、还原和最小化当前窗口。
 - `Win+↓` 最小化窗口后，如果没有切换到其他窗口，`Win+↑` 应恢复刚才的窗口，与 Windows 行为一致。
@@ -70,5 +71,6 @@
 - [x] 本地成品使用稳定 designated requirement，避免重建后权限身份变化
 - [x] Windows 风格窗口布局与恢复
 - [x] Win+V 本地文本剪贴板历史
+- [x] Alt+Tab 选中应用后按切换器图标点击语义激活、恢复或重新打开窗口
 
 下一阶段优先验证不同实体键盘上的 Alt/Win 修饰键事件，并根据实际使用反馈调整映射；独立发布前补充应用图标、Developer ID 签名和公证。

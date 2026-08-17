@@ -8,7 +8,7 @@ WinKeys 是一个原生 macOS 菜单栏应用，将常用 Windows 快捷键按�
 
 - `Ctrl+C/V/X/Z/Y/A/S/F` 等常用编辑快捷键
 - Home、End、Ctrl+方向键和 Ctrl+退格
-- `Alt+Tab`、`Alt+F4`
+- `Alt+Tab`（可恢复最小化或已关闭的应用窗口）、`Alt+F4`
 - `Win+E`、`Win+D`、`Ctrl+Shift+Esc`
 - `Alt+Space` 打开 Spotlight，`Ctrl+Space` 切换输入法
 - Finder 中 F2 重命名、Delete 移到废纸篓

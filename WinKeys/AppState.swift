@@ -463,9 +463,25 @@ extension AppState: ShortcutEngineDelegate {
         }
     }
 
-    func shortcutEngineRestoreMinimizedWindows() {
+    func shortcutEngineActivateSelectedApplication() {
         guard let application = NSWorkspace.shared.frontmostApplication else { return }
-        windowManager.restoreMinimizedWindows(for: application)
+        application.activate(options: [.activateAllWindows])
+        let hasWindows = windowManager.restoreMinimizedWindows(for: application)
+
+        guard !hasWindows,
+              application.processIdentifier != ProcessInfo.processInfo.processIdentifier,
+              let applicationURL = application.bundleURL else { return }
+
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = true
+        configuration.addsToRecentItems = false
+        configuration.createsNewApplicationInstance = false
+        NSWorkspace.shared.openApplication(at: applicationURL, configuration: configuration) { [weak self] _, error in
+            guard let error else { return }
+            DispatchQueue.main.async {
+                self?.engineError = "无法重新打开所选应用：\(error.localizedDescription)"
+            }
+        }
     }
 
     private func performWindowOperation(_ operation: WindowManager.Operation) {
