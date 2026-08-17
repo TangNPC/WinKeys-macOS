@@ -160,6 +160,7 @@ final class WindowManager {
             candidates.append(focused)
         }
         candidates.append(contentsOf: windows(for: application))
+        let hasUserFacingWindow = candidates.contains(where: isUserFacingWindow)
 
         for window in candidates {
             let result = AXUIElementSetAttributeValue(
@@ -171,7 +172,29 @@ final class WindowManager {
                 _ = AXUIElementPerformAction(window, kAXRaiseAction as CFString)
             }
         }
-        return !candidates.isEmpty
+        return hasUserFacingWindow
+    }
+
+    private func isUserFacingWindow(_ window: AXUIElement) -> Bool {
+        var subroleValue: CFTypeRef?
+        if AXUIElementCopyAttributeValue(
+            window,
+            kAXSubroleAttribute as CFString,
+            &subroleValue
+        ) == .success,
+           let subrole = subroleValue as? String,
+           subrole == kAXStandardWindowSubrole as String {
+            return true
+        }
+
+        var titleValue: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(
+            window,
+            kAXTitleAttribute as CFString,
+            &titleValue
+        ) == .success,
+              let title = titleValue as? String else { return false }
+        return !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     private func restoreMinimizedWindow(_ window: AXUIElement) -> String? {
