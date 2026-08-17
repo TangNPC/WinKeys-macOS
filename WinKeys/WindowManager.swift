@@ -12,6 +12,7 @@ final class WindowManager {
     private var restoreFrames: [String: CGRect] = [:]
     private var recentlyMinimizedWindow: MinimizedWindow?
     private var activationObserver: NSObjectProtocol?
+    private let desktopQueue = DispatchQueue(label: "com.oxygen.WinKeys.desktop", qos: .userInitiated)
 
     init() {
         activationObserver = NSWorkspace.shared.notificationCenter.addObserver(
@@ -108,6 +109,70 @@ final class WindowManager {
         }
     }
 
+    /// Minimizes every visible window without relying on the user's F11 setting.
+    func minimizeAllWindows(completion: @escaping (String?) -> Void) {
+        desktopQueue.async {
+            let visibleProcessIDs = Set(
+                (CGWindowListCopyWindowInfo(
+                    [.optionOnScreenOnly, .excludeDesktopElements],
+                    kCGNullWindowID
+                ) as? [[String: Any]] ?? []).compactMap {
+                    ($0[kCGWindowOwnerPID as String] as? NSNumber)?.int32Value
+                }
+            )
+            let candidateWindows = NSWorkspace.shared.runningApplications
+                .filter {
+                    visibleProcessIDs.contains($0.processIdentifier)
+                        && $0.processIdentifier != ProcessInfo.processInfo.processIdentifier
+                }
+                .flatMap { self.windows(for: $0) }
+
+            var minimizedCount = 0
+            let minimizedLock = NSLock()
+            DispatchQueue.concurrentPerform(iterations: candidateWindows.count) { index in
+                if AXUIElementSetAttributeValue(
+                    candidateWindows[index],
+                    kAXMinimizedAttribute as CFString,
+                    kCFBooleanTrue
+                ) == .success {
+                    minimizedLock.lock()
+                    minimizedCount += 1
+                    minimizedLock.unlock()
+                }
+            }
+            let error = minimizedCount > 0 ? nil : "当前没有可隐藏的窗口。"
+            DispatchQueue.main.async { completion(error) }
+        }
+    }
+
+    private func windows(for application: NSRunningApplication) -> [AXUIElement] {
+        let appElement = AXUIElementCreateApplication(application.processIdentifier)
+        var value: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(appElement, kAXWindowsAttribute as CFString, &value) == .success,
+              let values = value as? [AXUIElement] else { return [] }
+        return values
+    }
+
+    func restoreMinimizedWindows(for application: NSRunningApplication) {
+        guard application.processIdentifier != ProcessInfo.processInfo.processIdentifier else { return }
+        var candidates: [AXUIElement] = []
+        if let focused = focusedWindow(for: application) {
+            candidates.append(focused)
+        }
+        candidates.append(contentsOf: windows(for: application))
+
+        for window in candidates {
+            let result = AXUIElementSetAttributeValue(
+                window,
+                kAXMinimizedAttribute as CFString,
+                kCFBooleanFalse
+            )
+            if result == .success {
+                _ = AXUIElementPerformAction(window, kAXRaiseAction as CFString)
+            }
+        }
+    }
+
     private func restoreMinimizedWindow(_ window: AXUIElement) -> String? {
         let result = AXUIElementSetAttributeValue(
             window,
@@ -151,15 +216,17 @@ final class WindowManager {
         guard let positionValue = AXValueCreate(.cgPoint, &position),
               let sizeValue = AXValueCreate(.cgSize, &size) else { return false }
 
-        let positionResult = AXUIElementSetAttributeValue(
-            window,
-            kAXPositionAttribute as CFString,
-            positionValue
-        )
+        // Accessibility exposes position and size separately. Resize first so
+        // the window does not briefly flash at its destination before expanding.
         let sizeResult = AXUIElementSetAttributeValue(
             window,
             kAXSizeAttribute as CFString,
             sizeValue
+        )
+        let positionResult = AXUIElementSetAttributeValue(
+            window,
+            kAXPositionAttribute as CFString,
+            positionValue
         )
         return positionResult == .success && sizeResult == .success
     }

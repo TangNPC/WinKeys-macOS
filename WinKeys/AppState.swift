@@ -72,6 +72,9 @@ final class AppState: ObservableObject {
     private var permissionTimer: Timer?
     private var notificationObservers: [NSObjectProtocol] = []
     private var hasStarted = false
+    private var desktopOperationInProgress = false
+    private var appBehaviorsByBundleIdentifier: [String: AppBehavior] = [:]
+    private var iconCache: [String: NSImage] = [:]
 
     private enum Keys {
         static let isEnabled = "isEnabled"
@@ -106,6 +109,10 @@ final class AppState: ObservableObject {
         windowManagement = defaults.bool(forKey: Keys.windowManagement)
         clipboardHistoryEnabled = defaults.bool(forKey: Keys.clipboardHistoryEnabled)
         appRules = Self.loadRules(from: defaults) ?? Self.defaultRules()
+        appBehaviorsByBundleIdentifier = Dictionary(
+            appRules.map { ($0.bundleIdentifier, $0.behavior) },
+            uniquingKeysWith: { _, latest in latest }
+        )
         launchAtLogin = SMAppService.mainApp.status == .enabled
     }
 
@@ -121,11 +128,6 @@ final class AppState: ObservableObject {
         hasStarted = true
         refreshPermissions()
         syncClipboardMonitoring()
-        let timer = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
-            self?.refreshPermissions()
-        }
-        permissionTimer = timer
-        RunLoop.main.add(timer, forMode: .common)
 
         let didBecomeActive = NotificationCenter.default.addObserver(
             forName: NSApplication.didBecomeActiveNotification,
@@ -253,13 +255,19 @@ final class AppState: ObservableObject {
     }
 
     func icon(for rule: AppRule) -> NSImage {
+        let cacheKey = rule.applicationPath ?? rule.bundleIdentifier
+        if let cached = iconCache[cacheKey] { return cached }
+
+        let icon: NSImage
         if let path = rule.applicationPath, FileManager.default.fileExists(atPath: path) {
-            return NSWorkspace.shared.icon(forFile: path)
+            icon = NSWorkspace.shared.icon(forFile: path)
+        } else if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: rule.bundleIdentifier) {
+            icon = NSWorkspace.shared.icon(forFile: url.path)
+        } else {
+            icon = NSImage(systemSymbolName: "app", accessibilityDescription: rule.displayName) ?? NSImage()
         }
-        if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: rule.bundleIdentifier) {
-            return NSWorkspace.shared.icon(forFile: url.path)
-        }
-        return NSImage(systemSymbolName: "app", accessibilityDescription: rule.displayName) ?? NSImage()
+        iconCache[cacheKey] = icon
+        return icon
     }
 
     private func save(_ value: Bool, key: String) {
@@ -277,6 +285,7 @@ final class AppState: ObservableObject {
         if changed || (isEnabled && !engineIsRunning) {
             syncEngine()
         }
+        updatePermissionTimer()
     }
 
     private func syncEngine() {
@@ -299,8 +308,27 @@ final class AppState: ObservableObject {
     }
 
     private func saveRules() {
+        appBehaviorsByBundleIdentifier = Dictionary(
+            appRules.map { ($0.bundleIdentifier, $0.behavior) },
+            uniquingKeysWith: { _, latest in latest }
+        )
         guard let data = try? JSONEncoder().encode(appRules) else { return }
         defaults.set(data, forKey: Keys.appRules)
+    }
+
+    private func updatePermissionTimer() {
+        guard hasStarted else { return }
+        if allPermissionsGranted {
+            permissionTimer?.invalidate()
+            permissionTimer = nil
+            return
+        }
+        guard permissionTimer == nil else { return }
+        let timer = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
+            self?.refreshPermissions()
+        }
+        permissionTimer = timer
+        RunLoop.main.add(timer, forMode: .common)
     }
 
     private func openSystemSettings(anchor: String) {
@@ -359,7 +387,7 @@ final class AppState: ObservableObject {
 extension AppState: ShortcutEngineDelegate {
     func shortcutEngineBehavior(for bundleIdentifier: String?) -> AppBehavior {
         guard let bundleIdentifier else { return .standard }
-        return appRules.first(where: { $0.bundleIdentifier == bundleIdentifier })?.behavior ?? .standard
+        return appBehaviorsByBundleIdentifier[bundleIdentifier] ?? .standard
     }
 
     func shortcutEngineDidChange(running: Bool, error: String?) {
@@ -385,7 +413,12 @@ extension AppState: ShortcutEngineDelegate {
             NSWorkspace.shared.openApplication(at: url, configuration: .init())
 
         case .showDesktop:
-            SyntheticKeyboard.press(KeyCode.f11)
+            guard !desktopOperationInProgress else { return }
+            desktopOperationInProgress = true
+            windowManager.minimizeAllWindows { [weak self] error in
+                self?.desktopOperationInProgress = false
+                self?.engineError = error
+            }
 
         case .lockScreen:
             SyntheticKeyboard.press(KeyCode.q, flags: [.maskControl, .maskCommand])
@@ -428,6 +461,11 @@ extension AppState: ShortcutEngineDelegate {
         case .restoreOrMinimizeWindow:
             performWindowOperation(.restoreOrMinimize)
         }
+    }
+
+    func shortcutEngineRestoreMinimizedWindows() {
+        guard let application = NSWorkspace.shared.frontmostApplication else { return }
+        windowManager.restoreMinimizedWindows(for: application)
     }
 
     private func performWindowOperation(_ operation: WindowManager.Operation) {

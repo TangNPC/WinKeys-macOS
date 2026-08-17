@@ -14,6 +14,7 @@ final class ClipboardHistoryStore: ObservableObject {
     private let pasteboard = NSPasteboard.general
     private let defaults = UserDefaults.standard
     private let storageKey = "clipboardHistoryItems"
+    private let persistenceQueue = DispatchQueue(label: "com.oxygen.WinKeys.clipboard-persistence", qos: .utility)
     private var lastChangeCount: Int
     private var timer: Timer?
 
@@ -84,8 +85,13 @@ final class ClipboardHistoryStore: ObservableObject {
     }
 
     private func persist() {
-        guard let data = try? JSONEncoder().encode(items) else { return }
-        defaults.set(data, forKey: storageKey)
+        let snapshot = items
+        let defaults = defaults
+        let storageKey = storageKey
+        persistenceQueue.async {
+            guard let data = try? JSONEncoder().encode(snapshot) else { return }
+            defaults.set(data, forKey: storageKey)
+        }
     }
 }
 

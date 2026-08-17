@@ -57,7 +57,7 @@ xcodebuild -project WinKeys.xcodeproj \
 ## 已知限制
 
 - Secure Input 生效时，macOS 可能禁止监听按键。
-- `Win+D` 当前依赖系统 F11“显示桌面”快捷键，系统关闭该快捷键时不会生效。
+- `Win+D` 使用辅助功能 API 最小化全部可见窗口，不依赖系统 F11“显示桌面”快捷键。
 - Xcode 每次生成不同路径的调试应用时，macOS 可能要求重新授权。
 - 正式独立分发需要 Developer ID 签名、公证和应用图标。
 - 剪贴板历史目前只记录纯文本，最多 50 条；隐藏、临时和超过 200 KB 的内容会忽略。

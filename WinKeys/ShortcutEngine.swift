@@ -6,6 +6,7 @@ protocol ShortcutEngineDelegate: AnyObject {
     func shortcutEngineBehavior(for bundleIdentifier: String?) -> AppBehavior
     func shortcutEngineDidChange(running: Bool, error: String?)
     func shortcutEnginePerform(_ action: ShortcutAction)
+    func shortcutEngineRestoreMinimizedWindows()
 }
 
 final class ShortcutEngine {
@@ -14,13 +15,29 @@ final class ShortcutEngine {
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
     private var commandOnlyCandidate: CGKeyCode?
+    private var pendingAppSwitchRestore = false
+    private var frontmostBundleIdentifier: String?
+    private var activationObserver: NSObjectProtocol?
 
     init(delegate: ShortcutEngineDelegate) {
         self.delegate = delegate
+        frontmostBundleIdentifier = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+        activationObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didActivateApplicationNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            let application = notification.userInfo?[NSWorkspace.applicationUserInfoKey]
+                as? NSRunningApplication
+            self?.frontmostBundleIdentifier = application?.bundleIdentifier
+        }
     }
 
     deinit {
         stop()
+        if let activationObserver {
+            NSWorkspace.shared.notificationCenter.removeObserver(activationObserver)
+        }
     }
 
     func start() {
@@ -73,12 +90,14 @@ final class ShortcutEngine {
         runLoopSource = nil
         eventTap = nil
         commandOnlyCandidate = nil
+        pendingAppSwitchRestore = false
         delegate?.shortcutEngineDidChange(running: false, error: nil)
     }
 
     private func handle(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
             commandOnlyCandidate = nil
+            pendingAppSwitchRestore = false
             if let eventTap {
                 CGEvent.tapEnable(tap: eventTap, enable: true)
             }
@@ -109,7 +128,7 @@ final class ShortcutEngine {
             commandOnlyCandidate = nil
         }
 
-        let bundleIdentifier = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+        let bundleIdentifier = frontmostBundleIdentifier
         let decision = ShortcutTranslator.decision(
             keyCode: keyCode,
             flags: event.flags,
@@ -123,8 +142,12 @@ final class ShortcutEngine {
             return Unmanaged.passUnretained(event)
 
         case let .remap(newKeyCode, newFlags):
+            let wasAltTab = keyCode == KeyCode.tab && event.flags.contains(.maskAlternate)
             event.setIntegerValueField(.keyboardEventKeycode, value: Int64(newKeyCode))
             event.flags = newFlags
+            if wasAltTab {
+                pendingAppSwitchRestore = true
+            }
             return Unmanaged.passUnretained(event)
 
         case let .perform(action):
@@ -143,6 +166,13 @@ final class ShortcutEngine {
         event: CGEvent,
         delegate: ShortcutEngineDelegate
     ) -> Unmanaged<CGEvent>? {
+        if pendingAppSwitchRestore, !event.flags.contains(.maskAlternate) {
+            pendingAppSwitchRestore = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                delegate.shortcutEngineRestoreMinimizedWindows()
+            }
+        }
+
         let isCommandKey = keyCode == KeyCode.leftCommand || keyCode == KeyCode.rightCommand
         guard isCommandKey else {
             commandOnlyCandidate = nil
@@ -153,7 +183,7 @@ final class ShortcutEngine {
             let modifiers = event.flags.intersection([
                 .maskCommand, .maskControl, .maskAlternate, .maskShift
             ])
-            let bundleIdentifier = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+            let bundleIdentifier = frontmostBundleIdentifier
             let isEligible = modifiers == .maskCommand
                 && delegate.shortcutConfiguration.systemLaunchers
                 && delegate.shortcutEngineBehavior(for: bundleIdentifier) != .bypass
